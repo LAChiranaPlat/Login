@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/idPerfil"
+        android:title="@string/myProfile" />
+    <item
+        android:id="@+id/idConfig"
+        android:title="@string/config" />
+    <item
+        android:id="@+id/idClose"
+        android:title="@string/closeSesion" />
+</menu>

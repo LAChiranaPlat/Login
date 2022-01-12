@@ -4,4 +4,7 @@
     <string name="nameUser">Ingrese su Nombre de Usuario</string>
     <string name="passUser">Clave de Acceso Aqui</string>
     <string name="descImageLogin">Avatar del Usuario</string>
+    <string name="myProfile">Mi Perfil</string>
+    <string name="config">Seguridad</string>
+    <string name="closeSesion">Salir</string>
 </resources>
