@@ -6,4 +6,26 @@
     android:layout_height="match_parent"
     tools:context=".system">
 
+    <TextView
+        android:id="@+id/lblUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="TextView"
+        android:textSize="45sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/lblUser"
+        app:layout_constraintEnd_toStartOf="@+id/lblUser"
+        app:layout_constraintTop_toTopOf="@+id/lblUser"
+        app:srcCompat="@drawable/ic_baseline_account_circle_24" />
 </androidx.constraintlayout.widget.ConstraintLayout>
