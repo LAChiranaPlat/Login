@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Login</string>
+    <string name="btnIngresar">Iniciar sesion</string>
+    <string name="nameUser">Ingrese su Nombre de Usuario</string>
+    <string name="passUser">Clave de Acceso Aqui</string>
+    <string name="descImageLogin">Avatar del Usuario</string>
 </resources>
