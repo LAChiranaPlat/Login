@@ -1,5 +1,6 @@
 package com.example.login
 
+import android.content.Intent
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -17,11 +18,16 @@ open class templateMain: AppCompatActivity()  {
 
     }
 
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
          return when(item.itemId){
             R.id.idPerfil ->{
-                Log.i("Message","Touch en Perfil")
+
+                val intent= Intent(this, profile::class.java)
+
+                startActivity(intent)
+
                 true
             }
             R.id.idConfig ->{
