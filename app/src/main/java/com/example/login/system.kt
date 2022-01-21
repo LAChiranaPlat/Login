@@ -12,8 +12,8 @@ class system : templateMain() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val user=intent.getStringExtra(EXTRA_MESSAGE)
-
+       // val user=intent.getStringExtra(EXTRA_MESSAGE)
+        val user="xxxxxxxx"
         contentView= ActivitySystemBinding.inflate(layoutInflater)
         contentView.lblUser.text=user
 
