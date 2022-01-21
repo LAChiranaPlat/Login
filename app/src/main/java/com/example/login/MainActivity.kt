@@ -5,20 +5,17 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.AlarmClock.EXTRA_MESSAGE
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.Response
-import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestListener
 import com.example.login.databinding.ActivityMainBinding
-import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
 
@@ -55,25 +52,19 @@ class MainActivity : AppCompatActivity() {
                         if(resp.get("registros").equals(1))
                         {
                             Log.i("result","Lanza la otra Activity")
-                            Log.i("result","https://geniomaticrodas.edu.pe/resources/avatars/perfil.jpg")
-                            //contentView.avatar.background=R.drawable.fondo
-                            Glide.with(this)
-                                .load("https://geniomaticrodas.edu.pe/resources/${resp.get("profile")}")
-                                .placeholder(R.drawable.ic_baseline_account_circle_24)
-                                .error(R.drawable.ic_baseline_error_24)
-                                .circleCrop()
-                                .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                             //   .listener( RequestListener(){
 
-                               // })
-                                .into(contentView.avatar)
-                            contentView.txtpassuser.visibility=
+                           contentView.txtpassuser.visibility= View.VISIBLE
+
+                            val res:ImageView?=contentView.avatar as ImageView?
+                            val resImage="https://geniomaticrodas.edu.pe/resources/${resp.get("profile")}"
+                            res?.setImage(resImage)
 
                             val intent= Intent(this,system::class.java)
 
-                            //intent.putExtra(EXTRA_MESSAGE,"${resp.get("name")} ${ resp.get("lname")}")
-                            //startActivity(intent)
-                            //finish()
+                            intent.putExtra(EXTRA_MESSAGE,"${resp.get("name")} ${ resp.get("lname")}")
+                            intent.putExtra("avatar",resp.get("profile").toString())
+                            startActivity(intent)
+                            finish()
 
 
                         }else{
@@ -92,12 +83,18 @@ class MainActivity : AppCompatActivity() {
             }
 
 
-/*
-
-*/
-
         }
 
     }
 
+    fun ImageView.setImage(url: String){
+            Glide.with(context)
+            .load(url)
+            .placeholder(R.drawable.ic_baseline_account_circle_24)
+            .error(R.drawable.ic_baseline_error_24)
+            .circleCrop()
+            .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+            .into(this)
+            this.setBackgroundResource(R.drawable.back)
+    }
 }
