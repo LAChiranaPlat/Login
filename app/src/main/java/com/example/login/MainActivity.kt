@@ -22,6 +22,17 @@ class MainActivity : AppCompatActivity() {
     lateinit var contentView:ActivityMainBinding
     lateinit var colaPeticion:RequestQueue
 
+    lateinit var userDB:String;
+    lateinit var passDB:String;
+
+    lateinit var nUser:String;
+    lateinit var lnUser:String;
+
+    lateinit var avatarDB:String;
+
+    var login:Int=1;
+    var intentosLogin:Int =0;
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -29,57 +40,81 @@ class MainActivity : AppCompatActivity() {
 
         contentView= ActivityMainBinding.inflate(layoutInflater)
 
+
         setContentView(contentView.root)
 
         val btnAcces=contentView.btnIntro
 
         btnAcces.setOnClickListener { v->
 
-            val nick=contentView.txtusernick.editText?.text.toString()
-            val pass=contentView.txtpassuser.editText?.text.toString()
+            if(login.equals(1)){
+                val nick=contentView.txtusernick.editText?.text.toString()
 
-            if(nick.isEmpty()){
-                Toast.makeText(this,"Ingrese su nombre de usuario",Toast.LENGTH_LONG).show()
-            }else{
-                val url="https://geniomaticrodas.edu.pe/resources/JsonObjectRequest.php?nick=${nick}&pass=${pass}"
+                if(nick.isEmpty()){
+                    Toast.makeText(this,"Ingrese su nombre de usuario",Toast.LENGTH_LONG).show()
+                }
+                else{
+                    val url="https://geniomaticrodas.edu.pe/resources/JsonObjectRequest.php?nick=${nick}"
 
-                val query=JsonObjectRequest(
-                    Request.Method.GET,
-                    url,null,
-                    Response.Listener { resp->
-                        Log.i("result",resp.toString())
+                    val query=JsonObjectRequest(
+                        Request.Method.GET,
+                        url,null,
+                        Response.Listener { resp->
+                            Log.i("result",resp.toString())
 
-                        if(resp.get("registros").equals(1))
-                        {
-                            Log.i("result","Lanza la otra Activity")
+                            if(resp.get("registros").equals(1))
+                            {
 
-                           contentView.txtpassuser.visibility= View.VISIBLE
+                                contentView.txtpassuser.visibility= View.VISIBLE
+                                contentView.txtpassuser.requestFocus()
 
-                            val res:ImageView?=contentView.avatar as ImageView?
-                            val resImage="https://geniomaticrodas.edu.pe/resources/${resp.get("profile")}"
-                            res?.setImage(resImage)
+                                userDB=nick
+                                passDB=resp.get("pass").toString()
+                                avatarDB=resp.get("profile").toString()
+                               // nUser=resp.get("nombres").toString()
+                               // lnUser=resp.get("apellidos").toString()
+                                login=2
 
-                            val intent= Intent(this,system::class.java)
+                                val res:ImageView?=contentView.avatar as ImageView?
+                                val resImage="https://geniomaticrodas.edu.pe/resources/${resp.get("profile")}"
+                                res?.setImage(resImage)
 
-                            intent.putExtra(EXTRA_MESSAGE,"${resp.get("name")} ${ resp.get("lname")}")
-                            intent.putExtra("avatar",resp.get("profile").toString())
-                            startActivity(intent)
-                            finish()
+                            }else{
+                                Toast.makeText(this,"Usuario incorrecto",Toast.LENGTH_LONG).show()
+                            }
 
 
-                        }else{
-                            Toast.makeText(this,"Usuario incorrecto",Toast.LENGTH_LONG).show()
+                        },
+                        Response.ErrorListener { eResp->
+                            Log.i("result","Error: ${eResp.message.toString()}")
                         }
 
+                    )
 
-                    },
-                    Response.ErrorListener { eResp->
-                            Log.i("result","Error: ${eResp.message.toString()}")
+                    colaPeticion.add(query)
+
                 }
-                    
-                )
 
-                colaPeticion.add(query)
+            }else if(login.equals(2)){
+
+                val pass=contentView.txtpassuser.editText?.text.toString()
+
+                if(pass.isEmpty()){
+                    Toast.makeText(this,"Ingrese su clave de acceso",Toast.LENGTH_LONG).show()
+                }else{
+                    if(pass.equals(passDB)){
+                        val intent= Intent(this,system::class.java)
+
+                        intent.putExtra(EXTRA_MESSAGE,"${nUser},${lnUser} ")
+                        intent.putExtra("avatar",avatarDB)
+                        startActivity(intent)
+                        finish()
+                    }else{
+                        contentView.txtusernick.visibility=View.VISIBLE
+                        contentView.txtpassuser.visibility=View.GONE
+                        Toast.makeText(this,"Contraseñar Incorrecta",Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
 
 
@@ -88,13 +123,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun ImageView.setImage(url: String){
-            Glide.with(context)
+        Glide.with(context)
             .load(url)
             .placeholder(R.drawable.ic_baseline_account_circle_24)
             .error(R.drawable.ic_baseline_error_24)
             .circleCrop()
             .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
             .into(this)
-            this.setBackgroundResource(R.drawable.back)
+        this.setBackgroundResource(R.drawable.back)
     }
 }
