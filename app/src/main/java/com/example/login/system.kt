@@ -16,17 +16,17 @@ class system : templateMain() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val user=intent.getStringExtra(EXTRA_MESSAGE)
-        val imgRes=intent.getStringExtra("avatar").toString()
-        Log.i("result","En System: Link=https://geniomaticrodas.edu.pe/resources/${imgRes}")
-/*
-        val res:ImageView?=contentView.imageView2 as ImageView?
-        val resImage="https://geniomaticrodas.edu.pe/resources/${imgRes}"
-        res?.setImage(resImage)
-*/
         contentView= ActivitySystemBinding.inflate(layoutInflater)
-        contentView.lblUser.text=user
+        Log.i("result","Uhmmmmmmm")
+        var user=intent.getStringExtra(EXTRA_MESSAGE)
+        var imgRes=intent.getStringExtra("avatar").toString()
+        Log.i("result","En System: Link=https://geniomaticrodas.edu.pe/resources/${imgRes}")
 
+        var res:ImageView?=contentView.imageView2 as ImageView?
+        var resImage="https://geniomaticrodas.edu.pe/resources/${imgRes}"
+        res?.setImage(resImage)
+
+        contentView.lblUser.text=user
 
         setContentView(contentView.root)
 

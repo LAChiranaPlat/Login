@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.preference.PreferenceManager
 
 open class templateMain: AppCompatActivity()  {
 
@@ -35,7 +36,17 @@ open class templateMain: AppCompatActivity()  {
                  true
             }
             R.id.idClose ->{
-                Log.i("Message","Touch en Salir")
+                val prefManager=PreferenceManager.getDefaultSharedPreferences(this)
+                val manager=prefManager.edit()
+
+                manager.remove("user")
+                manager.remove("log")
+                manager.remove("foto")
+                manager.apply()
+                val intent= Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+
                  true
             }
              else->super.onOptionsItemSelected(item)
